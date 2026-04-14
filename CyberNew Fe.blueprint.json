@@ -1,0 +1,1492 @@
+{
+    "name": "CyberNew Fe",
+    "flow": [
+        {
+            "id": 7,
+            "module": "builtin:BasicRouter",
+            "version": 1,
+            "mapper": null,
+            "metadata": {
+                "designer": {
+                    "x": -283,
+                    "y": 104
+                }
+            },
+            "routes": [
+                {
+                    "flow": [
+                        {
+                            "id": 1,
+                            "module": "http:MakeRequest",
+                            "version": 4,
+                            "parameters": {
+                                "tlsType": "",
+                                "proxyKeychain": "",
+                                "authenticationType": "noAuth"
+                            },
+                            "mapper": {
+                                "url": "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json",
+                                "method": "get",
+                                "headers": [
+                                    {
+                                        "name": "User-Agent",
+                                        "value": "Mozilla/5.0 (Make Automation)"
+                                    }
+                                ],
+                                "shareCookies": false,
+                                "parseResponse": false,
+                                "allowRedirects": true,
+                                "stopOnHttpError": true,
+                                "requestCompressedContent": true
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": -75,
+                                    "y": -198,
+                                    "name": "CISA Data input"
+                                },
+                                "restore": {
+                                    "expect": {
+                                        "method": {
+                                            "mode": "chose",
+                                            "label": "GET"
+                                        },
+                                        "headers": {
+                                            "mode": "chose",
+                                            "items": [
+                                                null
+                                            ]
+                                        },
+                                        "contentType": {
+                                            "label": "Empty"
+                                        },
+                                        "shareCookies": {
+                                            "mode": "chose"
+                                        },
+                                        "parseResponse": {
+                                            "mode": "chose"
+                                        },
+                                        "allowRedirects": {
+                                            "mode": "chose"
+                                        },
+                                        "queryParameters": {
+                                            "mode": "chose"
+                                        },
+                                        "stopOnHttpError": {
+                                            "mode": "chose"
+                                        },
+                                        "requestCompressedContent": {
+                                            "mode": "chose"
+                                        }
+                                    },
+                                    "parameters": {
+                                        "tlsType": {
+                                            "label": "Empty"
+                                        },
+                                        "proxyKeychain": {
+                                            "label": "Choose a key"
+                                        },
+                                        "authenticationType": {
+                                            "label": "No authenticationUse when no credentials are required for the request."
+                                        }
+                                    }
+                                },
+                                "parameters": [
+                                    {
+                                        "name": "authenticationType",
+                                        "type": "select",
+                                        "label": "Authentication type",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "noAuth",
+                                                "apiKey",
+                                                "basicAuth",
+                                                "oAuth"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "tlsType",
+                                        "type": "select",
+                                        "label": "Transport layer security (TLS)",
+                                        "validate": {
+                                            "enum": [
+                                                "mTls",
+                                                "tls"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "proxyKeychain",
+                                        "type": "keychain:proxy",
+                                        "label": "Proxy"
+                                    }
+                                ],
+                                "expect": [
+                                    {
+                                        "name": "url",
+                                        "type": "url",
+                                        "label": "URL",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "method",
+                                        "type": "select",
+                                        "label": "Method",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "get",
+                                                "head",
+                                                "post",
+                                                "put",
+                                                "patch",
+                                                "delete",
+                                                "options"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "headers",
+                                        "spec": {
+                                            "name": "value",
+                                            "spec": [
+                                                {
+                                                    "name": "name",
+                                                    "type": "text",
+                                                    "label": "Name",
+                                                    "required": true,
+                                                    "validate": {
+                                                        "pattern": "^[-!#$%&'*+.^_`|~0-9A-Za-z]+$"
+                                                    }
+                                                },
+                                                {
+                                                    "name": "value",
+                                                    "type": "text",
+                                                    "label": "Value"
+                                                }
+                                            ],
+                                            "type": "collection",
+                                            "label": "Header"
+                                        },
+                                        "type": "array",
+                                        "label": "Headers"
+                                    },
+                                    {
+                                        "name": "queryParameters",
+                                        "spec": {
+                                            "name": "value",
+                                            "spec": [
+                                                {
+                                                    "name": "name",
+                                                    "type": "text",
+                                                    "label": "Name",
+                                                    "required": true
+                                                },
+                                                {
+                                                    "name": "value",
+                                                    "type": "text",
+                                                    "label": "Value"
+                                                }
+                                            ],
+                                            "type": "collection",
+                                            "label": "Parameter"
+                                        },
+                                        "type": "array",
+                                        "label": "Query parameters"
+                                    },
+                                    {
+                                        "name": "contentType",
+                                        "type": "select",
+                                        "label": "Body content type",
+                                        "validate": {
+                                            "enum": [
+                                                "json",
+                                                "multipart",
+                                                "urlEncoded",
+                                                "custom"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "parseResponse",
+                                        "type": "boolean",
+                                        "label": "Parse response",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "stopOnHttpError",
+                                        "type": "boolean",
+                                        "label": "Return error if HTTP request fails",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "timeout",
+                                        "type": "uinteger",
+                                        "label": "Timeout",
+                                        "validate": {
+                                            "max": 300,
+                                            "min": 1
+                                        }
+                                    },
+                                    {
+                                        "name": "allowRedirects",
+                                        "type": "boolean",
+                                        "label": "Allow redirects",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "shareCookies",
+                                        "type": "boolean",
+                                        "label": "Share cookies with other HTTP modules",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "requestCompressedContent",
+                                        "type": "boolean",
+                                        "label": "Request compressed content",
+                                        "required": true
+                                    }
+                                ],
+                                "interface": [
+                                    {
+                                        "name": "data",
+                                        "type": "any",
+                                        "label": "Data"
+                                    },
+                                    {
+                                        "name": "statusCode",
+                                        "type": "number",
+                                        "label": "Status Code"
+                                    },
+                                    {
+                                        "name": "headers",
+                                        "spec": [
+                                            {
+                                                "name": "content-length",
+                                                "type": "text",
+                                                "label": "Content-Length"
+                                            },
+                                            {
+                                                "name": "content-encoding",
+                                                "type": "text",
+                                                "label": "Content-Encoding"
+                                            },
+                                            {
+                                                "name": "content-type",
+                                                "type": "text",
+                                                "label": "Content-Type"
+                                            },
+                                            {
+                                                "name": "server",
+                                                "type": "text",
+                                                "label": "Server"
+                                            },
+                                            {
+                                                "name": "cache-control",
+                                                "type": "text",
+                                                "label": "Cache-Control"
+                                            },
+                                            {
+                                                "name": "set-cookie",
+                                                "spec": {
+                                                    "type": "text"
+                                                },
+                                                "type": "array",
+                                                "label": "Set-Cookie"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Headers"
+                                    }
+                                ],
+                                "advanced": true
+                            }
+                        },
+                        {
+                            "id": 2,
+                            "module": "json:ParseJSON",
+                            "version": 1,
+                            "parameters": {
+                                "type": ""
+                            },
+                            "mapper": {
+                                "json": "{{1.data}}"
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 293,
+                                    "y": -187
+                                },
+                                "restore": {
+                                    "parameters": {
+                                        "type": {
+                                            "label": "Choose a data structure"
+                                        }
+                                    }
+                                },
+                                "parameters": [
+                                    {
+                                        "name": "type",
+                                        "type": "udt",
+                                        "label": "Data structure"
+                                    }
+                                ],
+                                "expect": [
+                                    {
+                                        "name": "json",
+                                        "type": "text",
+                                        "label": "JSON string",
+                                        "required": true
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "id": 3,
+                            "module": "builtin:BasicFeeder",
+                            "version": 1,
+                            "parameters": {},
+                            "mapper": {
+                                "array": "{{2.vulnerabilities}}"
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 591,
+                                    "y": -174
+                                },
+                                "restore": {
+                                    "expect": {
+                                        "array": {
+                                            "mode": "edit"
+                                        }
+                                    }
+                                },
+                                "expect": [
+                                    {
+                                        "mode": "edit",
+                                        "name": "array",
+                                        "spec": [],
+                                        "type": "array",
+                                        "label": "Array"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "id": 11,
+                            "module": "datastore:AddRecord",
+                            "version": 1,
+                            "parameters": {
+                                "datastore": 86498
+                            },
+                            "filter": {
+                                "name": "Day filter",
+                                "conditions": [
+                                    [
+                                        {
+                                            "a": "{{parseDate(3.dateAdded; \"YYYY-MM-DD\")}}",
+                                            "b": "{{addDays(now; -7)}}",
+                                            "o": "date:greaterorequal"
+                                        }
+                                    ]
+                                ]
+                            },
+                            "mapper": {
+                                "key": "{{3.cveID}}",
+                                "data": {
+                                    "title": "{{3.vulnerabilityName}}",
+                                    "key_id": "{{3.cveID}}",
+                                    "status": "Pending",
+                                    "summary": "{{3.shortDescription}}",
+                                    "source_url": "{{3.notes}}",
+                                    "published_date": "{{3.dateAdded}}"
+                                },
+                                "overwrite": true
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 886,
+                                    "y": -176
+                                },
+                                "restore": {
+                                    "expect": {
+                                        "overwrite": {
+                                            "mode": "chose"
+                                        }
+                                    },
+                                    "parameters": {
+                                        "datastore": {
+                                            "label": "News_Queue_DB"
+                                        }
+                                    }
+                                },
+                                "parameters": [
+                                    {
+                                        "name": "datastore",
+                                        "type": "datastore",
+                                        "label": "Data store",
+                                        "required": true
+                                    }
+                                ],
+                                "expect": [
+                                    {
+                                        "name": "key",
+                                        "type": "text",
+                                        "label": "Key"
+                                    },
+                                    {
+                                        "name": "overwrite",
+                                        "type": "boolean",
+                                        "label": "Overwrite an existing record",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "data",
+                                        "spec": [
+                                            {
+                                                "name": "key_id",
+                                                "type": "text",
+                                                "label": null
+                                            },
+                                            {
+                                                "name": "title",
+                                                "type": "text",
+                                                "label": null
+                                            },
+                                            {
+                                                "name": "summary",
+                                                "type": "text",
+                                                "label": null
+                                            },
+                                            {
+                                                "name": "source_url",
+                                                "type": "text",
+                                                "label": null
+                                            },
+                                            {
+                                                "name": "published_date",
+                                                "type": "date",
+                                                "label": null
+                                            },
+                                            {
+                                                "name": "status",
+                                                "type": "text",
+                                                "label": null
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Record"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "flow": [
+                        {
+                            "id": 9,
+                            "module": "rss:ActionReadArticles",
+                            "version": 4,
+                            "parameters": {
+                                "include": []
+                            },
+                            "mapper": {
+                                "url": "https://feeds.feedburner.com/TheHackersNews",
+                                "gzip": true,
+                                "password": "",
+                                "username": "",
+                                "maxResults": "5",
+                                "filterDateTo": "",
+                                "filterDateFrom": ""
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": -82,
+                                    "y": 410,
+                                    "name": "The Hacker News RSS"
+                                },
+                                "restore": {},
+                                "parameters": [
+                                    {
+                                        "name": "include",
+                                        "type": "select",
+                                        "label": "Process RSS fields",
+                                        "multiple": true,
+                                        "validate": {
+                                            "enum": [
+                                                "google-merchant-center",
+                                                "itunes"
+                                            ]
+                                        }
+                                    }
+                                ],
+                                "expect": [
+                                    {
+                                        "name": "url",
+                                        "type": "url",
+                                        "label": "URL",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "username",
+                                        "type": "text",
+                                        "label": "User name"
+                                    },
+                                    {
+                                        "name": "password",
+                                        "type": "text",
+                                        "label": "Password"
+                                    },
+                                    {
+                                        "name": "filterDateFrom",
+                                        "type": "date",
+                                        "label": "Date from"
+                                    },
+                                    {
+                                        "name": "filterDateTo",
+                                        "type": "date",
+                                        "label": "Date to "
+                                    },
+                                    {
+                                        "name": "maxResults",
+                                        "type": "number",
+                                        "label": "Maximum number of returned items",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "gzip",
+                                        "type": "boolean",
+                                        "label": "Request compressed content",
+                                        "required": true
+                                    }
+                                ],
+                                "interface": [
+                                    {
+                                        "name": "title",
+                                        "type": "text",
+                                        "label": "Title"
+                                    },
+                                    {
+                                        "name": "description",
+                                        "type": "text",
+                                        "label": "Description"
+                                    },
+                                    {
+                                        "name": "summary",
+                                        "type": "text",
+                                        "label": "Summary"
+                                    },
+                                    {
+                                        "name": "author",
+                                        "type": "text",
+                                        "label": "Author"
+                                    },
+                                    {
+                                        "name": "url",
+                                        "type": "url",
+                                        "label": "URL"
+                                    },
+                                    {
+                                        "name": "dateUpdated",
+                                        "type": "date",
+                                        "label": "Date updated"
+                                    },
+                                    {
+                                        "name": "dateCreated",
+                                        "type": "date",
+                                        "label": "Date created"
+                                    },
+                                    {
+                                        "name": "comments",
+                                        "type": "url",
+                                        "label": "Comments"
+                                    },
+                                    {
+                                        "name": "image",
+                                        "spec": [
+                                            {
+                                                "name": "title",
+                                                "type": "text",
+                                                "label": "Name"
+                                            },
+                                            {
+                                                "name": "url",
+                                                "type": "url",
+                                                "label": "URL"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Image"
+                                    },
+                                    {
+                                        "name": "categories",
+                                        "spec": {
+                                            "type": "text"
+                                        },
+                                        "type": "array",
+                                        "label": "Categories"
+                                    },
+                                    {
+                                        "name": "source",
+                                        "spec": [
+                                            {
+                                                "name": "title",
+                                                "type": "text",
+                                                "label": "Name"
+                                            },
+                                            {
+                                                "name": "url",
+                                                "type": "url",
+                                                "label": "URL"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Source"
+                                    },
+                                    {
+                                        "name": "enclosures",
+                                        "spec": [
+                                            {
+                                                "name": "url",
+                                                "type": "url",
+                                                "label": "URL"
+                                            },
+                                            {
+                                                "name": "type",
+                                                "type": "text",
+                                                "label": "Type"
+                                            },
+                                            {
+                                                "name": "length",
+                                                "type": "number",
+                                                "label": "Length"
+                                            }
+                                        ],
+                                        "type": "array",
+                                        "label": "Enclosures"
+                                    },
+                                    {
+                                        "help": "Other RSS fields. All values are in text format.",
+                                        "name": "rssFields",
+                                        "spec": [
+                                            {
+                                                "name": "title",
+                                                "type": "text",
+                                                "label": "title"
+                                            },
+                                            {
+                                                "name": "description",
+                                                "type": "text",
+                                                "label": "description"
+                                            },
+                                            {
+                                                "name": "link",
+                                                "type": "text",
+                                                "label": "link"
+                                            },
+                                            {
+                                                "name": "guid",
+                                                "type": "text",
+                                                "label": "guid"
+                                            },
+                                            {
+                                                "name": "pubdate",
+                                                "type": "text",
+                                                "label": "pubdate"
+                                            },
+                                            {
+                                                "name": "author",
+                                                "type": "text",
+                                                "label": "author"
+                                            },
+                                            {
+                                                "name": "enclosure",
+                                                "type": "text",
+                                                "label": "enclosure"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "RSS fields"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "id": 14,
+                            "module": "datastore:AddRecord",
+                            "version": 1,
+                            "parameters": {
+                                "datastore": 86498
+                            },
+                            "mapper": {
+                                "key": "{{9.rssFields.link}}",
+                                "data": {
+                                    "title": "{{9.rssFields.title}}",
+                                    "key_id": "{{9.rssFields.link}}",
+                                    "status": "Pending",
+                                    "summary": "{{9.rssFields.description}}",
+                                    "source_url": "{{9.rssFields.link}}",
+                                    "published_date": "{{9.rssFields.pubdate}}"
+                                },
+                                "overwrite": false
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 896,
+                                    "y": 412
+                                },
+                                "restore": {
+                                    "expect": {
+                                        "overwrite": {
+                                            "mode": "chose"
+                                        }
+                                    },
+                                    "parameters": {
+                                        "datastore": {
+                                            "label": "News_Queue_DB"
+                                        }
+                                    }
+                                },
+                                "parameters": [
+                                    {
+                                        "name": "datastore",
+                                        "type": "datastore",
+                                        "label": "Data store",
+                                        "required": true
+                                    }
+                                ],
+                                "expect": [
+                                    {
+                                        "name": "key",
+                                        "type": "text",
+                                        "label": "Key"
+                                    },
+                                    {
+                                        "name": "overwrite",
+                                        "type": "boolean",
+                                        "label": "Overwrite an existing record",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "data",
+                                        "spec": [
+                                            {
+                                                "name": "key_id",
+                                                "type": "text",
+                                                "label": null
+                                            },
+                                            {
+                                                "name": "title",
+                                                "type": "text",
+                                                "label": null
+                                            },
+                                            {
+                                                "name": "summary",
+                                                "type": "text",
+                                                "label": null
+                                            },
+                                            {
+                                                "name": "source_url",
+                                                "type": "text",
+                                                "label": null
+                                            },
+                                            {
+                                                "name": "published_date",
+                                                "type": "text",
+                                                "label": null
+                                            },
+                                            {
+                                                "name": "status",
+                                                "type": "text",
+                                                "label": null
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Record"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "flow": [
+                        {
+                            "id": 5,
+                            "module": "rss:ActionReadArticles",
+                            "version": 4,
+                            "parameters": {
+                                "include": []
+                            },
+                            "mapper": {
+                                "url": "https://www.helpnetsecurity.com/feed/",
+                                "gzip": true,
+                                "password": "",
+                                "username": "",
+                                "maxResults": "5",
+                                "filterDateTo": "",
+                                "filterDateFrom": ""
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": -38,
+                                    "y": 114,
+                                    "name": "HelpNet Security RSS"
+                                },
+                                "restore": {},
+                                "parameters": [
+                                    {
+                                        "name": "include",
+                                        "type": "select",
+                                        "label": "Process RSS fields",
+                                        "multiple": true,
+                                        "validate": {
+                                            "enum": [
+                                                "google-merchant-center",
+                                                "itunes"
+                                            ]
+                                        }
+                                    }
+                                ],
+                                "expect": [
+                                    {
+                                        "name": "url",
+                                        "type": "url",
+                                        "label": "URL",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "username",
+                                        "type": "text",
+                                        "label": "User name"
+                                    },
+                                    {
+                                        "name": "password",
+                                        "type": "text",
+                                        "label": "Password"
+                                    },
+                                    {
+                                        "name": "filterDateFrom",
+                                        "type": "date",
+                                        "label": "Date from"
+                                    },
+                                    {
+                                        "name": "filterDateTo",
+                                        "type": "date",
+                                        "label": "Date to "
+                                    },
+                                    {
+                                        "name": "maxResults",
+                                        "type": "number",
+                                        "label": "Maximum number of returned items",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "gzip",
+                                        "type": "boolean",
+                                        "label": "Request compressed content",
+                                        "required": true
+                                    }
+                                ],
+                                "interface": [
+                                    {
+                                        "name": "title",
+                                        "type": "text",
+                                        "label": "Title"
+                                    },
+                                    {
+                                        "name": "description",
+                                        "type": "text",
+                                        "label": "Description"
+                                    },
+                                    {
+                                        "name": "summary",
+                                        "type": "text",
+                                        "label": "Summary"
+                                    },
+                                    {
+                                        "name": "author",
+                                        "type": "text",
+                                        "label": "Author"
+                                    },
+                                    {
+                                        "name": "url",
+                                        "type": "url",
+                                        "label": "URL"
+                                    },
+                                    {
+                                        "name": "dateUpdated",
+                                        "type": "date",
+                                        "label": "Date updated"
+                                    },
+                                    {
+                                        "name": "dateCreated",
+                                        "type": "date",
+                                        "label": "Date created"
+                                    },
+                                    {
+                                        "name": "comments",
+                                        "type": "url",
+                                        "label": "Comments"
+                                    },
+                                    {
+                                        "name": "image",
+                                        "spec": [
+                                            {
+                                                "name": "title",
+                                                "type": "text",
+                                                "label": "Name"
+                                            },
+                                            {
+                                                "name": "url",
+                                                "type": "url",
+                                                "label": "URL"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Image"
+                                    },
+                                    {
+                                        "name": "categories",
+                                        "spec": {
+                                            "type": "text"
+                                        },
+                                        "type": "array",
+                                        "label": "Categories"
+                                    },
+                                    {
+                                        "name": "source",
+                                        "spec": [
+                                            {
+                                                "name": "title",
+                                                "type": "text",
+                                                "label": "Name"
+                                            },
+                                            {
+                                                "name": "url",
+                                                "type": "url",
+                                                "label": "URL"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Source"
+                                    },
+                                    {
+                                        "name": "enclosures",
+                                        "spec": [
+                                            {
+                                                "name": "url",
+                                                "type": "url",
+                                                "label": "URL"
+                                            },
+                                            {
+                                                "name": "type",
+                                                "type": "text",
+                                                "label": "Type"
+                                            },
+                                            {
+                                                "name": "length",
+                                                "type": "number",
+                                                "label": "Length"
+                                            }
+                                        ],
+                                        "type": "array",
+                                        "label": "Enclosures"
+                                    },
+                                    {
+                                        "help": "Other RSS fields. All values are in text format.",
+                                        "name": "rssFields",
+                                        "spec": [
+                                            {
+                                                "name": "title",
+                                                "type": "text",
+                                                "label": "title"
+                                            },
+                                            {
+                                                "name": "link",
+                                                "type": "text",
+                                                "label": "link"
+                                            },
+                                            {
+                                                "name": "pubdate",
+                                                "type": "text",
+                                                "label": "pubdate"
+                                            },
+                                            {
+                                                "name": "category",
+                                                "type": "text",
+                                                "label": "category"
+                                            },
+                                            {
+                                                "name": "guid",
+                                                "type": "text",
+                                                "label": "guid"
+                                            },
+                                            {
+                                                "name": "description",
+                                                "type": "text",
+                                                "label": "description"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "RSS fields"
+                                    }
+                                ],
+                                "advanced": true
+                            }
+                        },
+                        {
+                            "id": 13,
+                            "module": "datastore:AddRecord",
+                            "version": 1,
+                            "parameters": {
+                                "datastore": 86498
+                            },
+                            "mapper": {
+                                "key": "{{5.rssFields.link}}",
+                                "data": {
+                                    "title": "{{5.rssFields.title}}",
+                                    "key_id": "{{5.rssFields.link}}",
+                                    "status": "Pending",
+                                    "summary": "{{trim(replace(get(split(stripHTML(5.rssFields.description); \"\"\"The post\"\"\"); 1); \"\"\"More →\"\"\"; \"\"))}}",
+                                    "source_url": "{{5.rssFields.link}}",
+                                    "published_date": "{{5.rssFields.pubdate}}"
+                                },
+                                "overwrite": true
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 891,
+                                    "y": 111
+                                },
+                                "restore": {
+                                    "expect": {
+                                        "overwrite": {
+                                            "mode": "chose"
+                                        }
+                                    },
+                                    "parameters": {
+                                        "datastore": {
+                                            "label": "News_Queue_DB"
+                                        }
+                                    }
+                                },
+                                "parameters": [
+                                    {
+                                        "name": "datastore",
+                                        "type": "datastore",
+                                        "label": "Data store",
+                                        "required": true
+                                    }
+                                ],
+                                "expect": [
+                                    {
+                                        "name": "key",
+                                        "type": "text",
+                                        "label": "Key"
+                                    },
+                                    {
+                                        "name": "overwrite",
+                                        "type": "boolean",
+                                        "label": "Overwrite an existing record",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "data",
+                                        "spec": [
+                                            {
+                                                "name": "key_id",
+                                                "type": "text",
+                                                "label": null
+                                            },
+                                            {
+                                                "name": "title",
+                                                "type": "text",
+                                                "label": null
+                                            },
+                                            {
+                                                "name": "summary",
+                                                "type": "text",
+                                                "label": null
+                                            },
+                                            {
+                                                "name": "source_url",
+                                                "type": "text",
+                                                "label": null
+                                            },
+                                            {
+                                                "name": "published_date",
+                                                "type": "text",
+                                                "label": null
+                                            },
+                                            {
+                                                "name": "status",
+                                                "type": "text",
+                                                "label": null
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Record"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "metadata": {
+        "instant": false,
+        "version": 1,
+        "scenario": {
+            "roundtrips": 1,
+            "maxErrors": 3,
+            "autoCommit": true,
+            "autoCommitTriggerLast": true,
+            "sequential": false,
+            "slots": null,
+            "confidential": false,
+            "dataloss": false,
+            "dlq": false,
+            "freshVariables": false
+        },
+        "designer": {
+            "orphans": [
+                [
+                    {
+                        "id": 10,
+                        "module": "rss:ActionReadArticles",
+                        "version": 4,
+                        "parameters": {
+                            "include": []
+                        },
+                        "mapper": {
+                            "url": "https://news.google.com/rss/search?q=cybersecurity+compliance+OR+GDPR+fines+OR+small+business+security+when:7d&hl=en-US&gl=US&ceid=US:en",
+                            "gzip": true,
+                            "password": "",
+                            "username": "",
+                            "maxResults": "5",
+                            "filterDateTo": "",
+                            "filterDateFrom": ""
+                        },
+                        "metadata": {
+                            "designer": {
+                                "x": -79,
+                                "y": 718,
+                                "name": "Google News Custom Feed RSS",
+                                "messages": [
+                                    {
+                                        "category": "link",
+                                        "severity": "warning",
+                                        "message": "The module is not connected to the data flow."
+                                    }
+                                ]
+                            },
+                            "restore": {},
+                            "parameters": [
+                                {
+                                    "name": "include",
+                                    "type": "select",
+                                    "label": "Process RSS fields",
+                                    "multiple": true,
+                                    "validate": {
+                                        "enum": [
+                                            "google-merchant-center",
+                                            "itunes"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "expect": [
+                                {
+                                    "name": "url",
+                                    "type": "url",
+                                    "label": "URL",
+                                    "required": true
+                                },
+                                {
+                                    "name": "username",
+                                    "type": "text",
+                                    "label": "User name"
+                                },
+                                {
+                                    "name": "password",
+                                    "type": "text",
+                                    "label": "Password"
+                                },
+                                {
+                                    "name": "filterDateFrom",
+                                    "type": "date",
+                                    "label": "Date from"
+                                },
+                                {
+                                    "name": "filterDateTo",
+                                    "type": "date",
+                                    "label": "Date to "
+                                },
+                                {
+                                    "name": "maxResults",
+                                    "type": "number",
+                                    "label": "Maximum number of returned items",
+                                    "required": true
+                                },
+                                {
+                                    "name": "gzip",
+                                    "type": "boolean",
+                                    "label": "Request compressed content",
+                                    "required": true
+                                }
+                            ],
+                            "interface": [
+                                {
+                                    "name": "title",
+                                    "type": "text",
+                                    "label": "Title"
+                                },
+                                {
+                                    "name": "description",
+                                    "type": "text",
+                                    "label": "Description"
+                                },
+                                {
+                                    "name": "summary",
+                                    "type": "text",
+                                    "label": "Summary"
+                                },
+                                {
+                                    "name": "author",
+                                    "type": "text",
+                                    "label": "Author"
+                                },
+                                {
+                                    "name": "url",
+                                    "type": "url",
+                                    "label": "URL"
+                                },
+                                {
+                                    "name": "dateUpdated",
+                                    "type": "date",
+                                    "label": "Date updated"
+                                },
+                                {
+                                    "name": "dateCreated",
+                                    "type": "date",
+                                    "label": "Date created"
+                                },
+                                {
+                                    "name": "comments",
+                                    "type": "url",
+                                    "label": "Comments"
+                                },
+                                {
+                                    "name": "image",
+                                    "spec": [
+                                        {
+                                            "name": "title",
+                                            "type": "text",
+                                            "label": "Name"
+                                        },
+                                        {
+                                            "name": "url",
+                                            "type": "url",
+                                            "label": "URL"
+                                        }
+                                    ],
+                                    "type": "collection",
+                                    "label": "Image"
+                                },
+                                {
+                                    "name": "categories",
+                                    "spec": {
+                                        "type": "text"
+                                    },
+                                    "type": "array",
+                                    "label": "Categories"
+                                },
+                                {
+                                    "name": "source",
+                                    "spec": [
+                                        {
+                                            "name": "title",
+                                            "type": "text",
+                                            "label": "Name"
+                                        },
+                                        {
+                                            "name": "url",
+                                            "type": "url",
+                                            "label": "URL"
+                                        }
+                                    ],
+                                    "type": "collection",
+                                    "label": "Source"
+                                },
+                                {
+                                    "name": "enclosures",
+                                    "spec": [
+                                        {
+                                            "name": "url",
+                                            "type": "url",
+                                            "label": "URL"
+                                        },
+                                        {
+                                            "name": "type",
+                                            "type": "text",
+                                            "label": "Type"
+                                        },
+                                        {
+                                            "name": "length",
+                                            "type": "number",
+                                            "label": "Length"
+                                        }
+                                    ],
+                                    "type": "array",
+                                    "label": "Enclosures"
+                                },
+                                {
+                                    "help": "Other RSS fields. All values are in text format.",
+                                    "name": "rssFields",
+                                    "spec": [
+                                        {
+                                            "name": "title",
+                                            "type": "text",
+                                            "label": "title"
+                                        },
+                                        {
+                                            "name": "link",
+                                            "type": "text",
+                                            "label": "link"
+                                        },
+                                        {
+                                            "name": "guid",
+                                            "type": "text",
+                                            "label": "guid"
+                                        },
+                                        {
+                                            "name": "pubdate",
+                                            "type": "text",
+                                            "label": "pubdate"
+                                        },
+                                        {
+                                            "name": "description",
+                                            "type": "text",
+                                            "label": "description"
+                                        },
+                                        {
+                                            "name": "source",
+                                            "type": "text",
+                                            "label": "source"
+                                        }
+                                    ],
+                                    "type": "collection",
+                                    "label": "RSS fields"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "id": 15,
+                        "module": "datastore:AddRecord",
+                        "version": 1,
+                        "parameters": {
+                            "datastore": 86498
+                        },
+                        "mapper": {
+                            "key": "{{10.rssFields.link}}",
+                            "data": {
+                                "title": "{{10.rssFields.title}}",
+                                "key_id": "{{10.rssFields.link}}",
+                                "status": "",
+                                "summary": "{{10.rssFields.description}}",
+                                "source_url": "{{10.rssFields.link}}",
+                                "published_date": "{{formatDate(ifempty(parseDate(substring(10.rssFields.pubdate; 0; 16); \"\"\"DDD, DD MMM YYYY\"\"\"); parseDate(substring(10.rssFields.pubdate; 0; 15); \"\"\"DDD MMM DD YYYY\"\"\")); \"\"\"YYYY-MM-DD\"\"\")}}"
+                            },
+                            "overwrite": false
+                        },
+                        "metadata": {
+                            "designer": {
+                                "x": 896,
+                                "y": 736
+                            },
+                            "restore": {
+                                "expect": {
+                                    "overwrite": {
+                                        "mode": "chose"
+                                    }
+                                },
+                                "parameters": {
+                                    "datastore": {
+                                        "label": "News_Queue_DB"
+                                    }
+                                }
+                            },
+                            "parameters": [
+                                {
+                                    "name": "datastore",
+                                    "type": "datastore",
+                                    "label": "Data store",
+                                    "required": true
+                                }
+                            ],
+                            "expect": [
+                                {
+                                    "name": "key",
+                                    "type": "text",
+                                    "label": "Key"
+                                },
+                                {
+                                    "name": "overwrite",
+                                    "type": "boolean",
+                                    "label": "Overwrite an existing record",
+                                    "required": true
+                                },
+                                {
+                                    "name": "data",
+                                    "spec": [
+                                        {
+                                            "name": "key_id",
+                                            "type": "text",
+                                            "label": null
+                                        },
+                                        {
+                                            "name": "title",
+                                            "type": "text",
+                                            "label": null
+                                        },
+                                        {
+                                            "name": "summary",
+                                            "type": "text",
+                                            "label": null
+                                        },
+                                        {
+                                            "name": "source_url",
+                                            "type": "text",
+                                            "label": null
+                                        },
+                                        {
+                                            "name": "published_date",
+                                            "type": "text",
+                                            "label": null
+                                        },
+                                        {
+                                            "name": "status",
+                                            "type": "text",
+                                            "label": null
+                                        }
+                                    ],
+                                    "type": "collection",
+                                    "label": "Record"
+                                }
+                            ]
+                        }
+                    }
+                ]
+            ]
+        },
+        "zone": "eu1.make.com",
+        "notes": []
+    }
+}
