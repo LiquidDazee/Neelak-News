@@ -32,7 +32,7 @@ This workflow acts as the editorial team, pulling from the staging queue to eval
 1.  **Queue Consumption:** Searches the `News_Queue_DB` for records flagged as "Pending."
 2.  **AI Triage ("The Editor"):** Passes the raw summary to a Gemini Pro LLM with a strict system prompt to rate the relevance for small businesses on a scale of 1-10. 
     * *Routing Logic:* If the score is below 6, the record is immediately updated to "Rejected" and the flow stops, saving token costs and maintaining site quality.
-3.  **Content Generation ("The Writer"):** If the score is 6 or higher, a second Gemini Pro module transforms the raw data into an SEO-optimized, 8th-grade reading level article complete with HTML tags (\`<h2>\`, \`<p>\`), headlines, and an excerpt.
+3.  **Content Generation ("The Writer"):** If the score is 6 or higher, a second Gemini Pro module transforms the raw data into an SEO-optimized, 8th-grade reading level article complete with HTML tags, headlines, and an excerpt.
 4.  **Asset Procurement:** Dynamically calls the Pexels API to fetch a high-resolution, landscape stock image related to the generated headline.
 5.  **CMS Publishing:** Uploads the media item to the self-hosted WordPress instance, drafts the final post with the AI-generated HTML and original source link, and updates the Data Store status to "Published."
 
