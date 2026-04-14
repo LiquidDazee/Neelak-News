@@ -22,18 +22,26 @@ To ensure system stability and prevent API timeouts, the automation architecture
 #### Scenario 1: The Ingestion Engine (`CyberNew Fe`)
 <img width="1560" height="906" alt="Screenshot 2026-04-14 123645" src="https://github.com/user-attachments/assets/337cc598-5d90-4ac2-9c87-ed4163b85824" />
 This workflow acts as the aggregator, running on a schedule to fetch and normalize raw data.
+
 1.  **Multi-Source Polling:** Simultaneously pulls data from critical cybersecurity feeds, including the CISA Known Exploited Vulnerabilities database, The Hacker News, HelpNet Security, and Google News.
+
 2.  **Data Normalization:** Parses JSON and RSS XML payloads into a standardized format.
+
 3.  **Staging Database:** Pushes the raw news items into a Make.com Data Store (`News_Queue_DB`) and flags them with a "Pending" status, preventing duplicate processing.
 
 #### Scenario 2: The AI Processing & Publishing Engine (`CyberNew Writer`)
 <img width="1776" height="699" alt="Screenshot 2026-04-14 123025" src="https://github.com/user-attachments/assets/12e11d30-a7f6-4e56-a578-1ccea05a0e6a" />
 This workflow acts as the editorial team, pulling from the staging queue to evaluate, write, and publish the content.
+
 1.  **Queue Consumption:** Searches the `News_Queue_DB` for records flagged as "Pending."
+
 2.  **AI Triage ("The Editor"):** Passes the raw summary to a Gemini Pro LLM with a strict system prompt to rate the relevance for small businesses on a scale of 1-10. 
     * *Routing Logic:* If the score is below 6, the record is immediately updated to "Rejected" and the flow stops, saving token costs and maintaining site quality.
+
 3.  **Content Generation ("The Writer"):** If the score is 6 or higher, a second Gemini Pro module transforms the raw data into an SEO-optimized, 8th-grade reading level article complete with HTML tags, headlines, and an excerpt.
+
 4.  **Asset Procurement:** Dynamically calls the Pexels API to fetch a high-resolution, landscape stock image related to the generated headline.
+
 5.  **CMS Publishing:** Uploads the media item to the self-hosted WordPress instance, drafts the final post with the AI-generated HTML and original source link, and updates the Data Store status to "Published."
 
 ## 🖥️ Hosting & Infrastructure (Self-Hosted)
